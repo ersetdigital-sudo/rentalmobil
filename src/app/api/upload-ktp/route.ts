@@ -41,10 +41,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Auto-compress transformation: resize max 1200px, quality auto, format auto
+    // — drastically reduces Cloudinary credit usage vs uploading raw files.
+    const transformation = "w_1200,c_limit,q_auto,f_auto";
+
     // Generate signature
     const timestamp = Math.round(Date.now() / 1000);
     const folder = "ktp";
-    const signatureStr = `folder=${folder}&timestamp=${timestamp}${apiSecret}`;
+    const signatureStr = `folder=${folder}&timestamp=${timestamp}&transformation=${transformation}${apiSecret}`;
     const signature = crypto.createHash("sha1").update(signatureStr).digest("hex");
 
     // Upload file directly to Cloudinary (not base64 - more efficient)
@@ -54,6 +58,7 @@ export async function POST(req: NextRequest) {
     uploadForm.append("timestamp", timestamp.toString());
     uploadForm.append("api_key", apiKey);
     uploadForm.append("signature", signature);
+    uploadForm.append("transformation", transformation);
 
     const uploadRes = await fetch(
       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,

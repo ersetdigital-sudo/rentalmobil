@@ -112,12 +112,11 @@ export function CustomersClient({ initialCustomers, blacklistNiks }: CustomersCl
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "ktp_upload");
       formData.append("folder", "ktp");
-      const res = await fetch("https://api.cloudinary.com/v1_1/dfxc4ceya/image/upload", { method: "POST", body: formData });
-      if (!res.ok) { toast("Gagal upload foto KTP", "error"); setPreviewUrl(null); setUploading(false); return; }
+      const res = await fetch("/api/upload-ktp", { method: "POST", body: formData });
+      if (!res.ok) { const err = await res.json().catch(() => ({})); toast(err.error || "Gagal upload foto KTP", "error"); setPreviewUrl(null); setUploading(false); return; }
       const data = await res.json();
-      const url = data.secure_url as string;
+      const url = data.url as string;
       setForm((prev) => ({ ...prev, ktp_url: url }));
       setPreviewUrl(url);
       toast("Foto KTP berhasil diupload", "success");
