@@ -1,0 +1,37 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/login",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "NEXT_PUBLIC_SUPABASE_URL",
+      "description": "Your Supabase project URL (https://<ref>.supabase.co) from Supabase Dashboard → Project Settings → API. Required — the app uses Supabase for auth + Postgres + RLS.",
+      "requiredAtBoot": true
+    },
+    {
+      "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "description": "Your Supabase anon/public API key from Supabase Dashboard → Project Settings → API. Required — used by both browser and server Supabase clients.",
+      "requiredAtBoot": true
+    },
+    {
+      "name": "CLOUDINARY_CLOUD_NAME",
+      "description": "Cloudinary cloud name (Cloudinary Console). Optional — only needed for the KTP/foto upload API routes.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "CLOUDINARY_API_KEY",
+      "description": "Cloudinary API key (Cloudinary Console). Optional — only needed for the KTP/foto upload API routes.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "CLOUDINARY_API_SECRET",
+      "description": "Cloudinary API secret (Cloudinary Console). Optional — only needed for the KTP/foto upload API routes.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "OCR_SPACE_API_KEY",
+      "description": "OCR.space API key (https://ocr.space/ocrapi). Optional — only needed for the KTP OCR (scan KTP) feature.",
+      "requiredAtBoot": false
+    }
+  ]
+}
